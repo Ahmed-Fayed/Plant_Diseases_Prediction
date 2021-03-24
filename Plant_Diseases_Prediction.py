@@ -13,6 +13,9 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, confusion_matrix, f1_score
 
+from keras.models import Sequential
+from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
+
 import os
 import cv2
 import random
@@ -61,6 +64,35 @@ for class_file in classes_list:
         images_labels.append(class_counter)
     
 
+
+# splitting data into training and testing data
+x_train, x_test, y_train, y_test = train_test_split(images_data, images_labels, test_size=0.2, shuffle=True)
+
+# splitting training data into training and validation data
+x_train, x_test, x_val, y_val = train_test_split(x_train, x_test, test_size=0.2, shuffle=True)
+
+
+
+
+# creating model Architecture
+model = Sequential()
+
+model.add(Conv2D(64, kernel_size=(3, 3), activation='relu', input_shape=(256, 256)))
+model.add(MaxPooling2D((2, 2)))
+
+model.add(Conv2D(32, kernel_size=(3, 3), activation='relu'))
+model.add(MaxPooling2D((2, 2)))
+
+model.add(Flatten())
+model.add(Dense(128, activation='relu'))
+model.add(Dense(3, activation='softmax'))
+
+model.summary()
+
+
+model.compile(optimizer='Adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+
+model.fit(x_train, x_test, batch_size=64, epochs=50, verbose=2, validation_data=(x_val, y_val), shuffle=True)
 
 
 

@@ -7,7 +7,7 @@ Model to predict 3 different disease
 
 3- Tomato Bacterial spot
 
-Implemented the model using 3 different methodologies:
+# Implemented the model using 3 different methodologies:
 
 --> First is the Subclassing Model which uses python class to build models or submodels and inherting from keras Model Module
 
